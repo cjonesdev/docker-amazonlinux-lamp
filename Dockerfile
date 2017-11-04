@@ -55,7 +55,7 @@ php70-xml \
 php70-xmlrpc \
 php70-zip \
 php7-pear \
-mysql56-server \
+mysql57-server \
 mongodb-org \
 nano \
 man \
