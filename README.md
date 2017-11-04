@@ -8,7 +8,7 @@ Creates a LAMP stack image using the official Amazon Linux image for [Docker](ht
 * MongoDB 3.4
 
 - http and https (unsigned)
-- remote access for MySQL and MongoDB
+- remote access for MySQL, MongoDB and Memcached
 
 ## Getting Started
 
