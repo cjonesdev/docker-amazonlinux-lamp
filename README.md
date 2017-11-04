@@ -2,10 +2,17 @@
 
 Creates a LAMP stack image using the official Amazon Linux image for [Docker](http://docker.com)
 
+* Apache 2.4
+* PHP 7.0
+* MySQL 5.7
+* MongoDB 3.4
+
+- http and https (unsigned)
+- remote access for MySQL and MongoDB
 
 ## Getting Started
 
-This container is recommended for development use, to mirror or mimic development of an AWS EC2 instance running Amazon Linux. It includes MySQL 5.6, Apache 2.4 and most of the PHP 7.0.* packages.
+This container is recommended for development use, to mirror or mimic development of an AWS EC2 instance running Amazon Linux. 
 
 
 #### Build Image
@@ -18,7 +25,7 @@ docker build -t imageName .
 
 ### Create Container
 
-You will most likely want to develop on your local machine. Create your directory structure on your local machine and figure out where you want your web root to reside. Update the -v ~/www:/var/www/html with the path to your work directory.
+You will most likely want to develop on your local machine. Create your directory structure on your local machine and figure out where you want your web root to reside. Update the -v ~/www:/var/www/html with the path to your working directory. You can obviously change this to include multiple filepath mappings, where needed.
 
 ```
 # Custom Image Build
