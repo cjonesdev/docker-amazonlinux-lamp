@@ -10,8 +10,9 @@ sed -i "s|#ServerName www\.example\.com:80|ServerName $HOSTNAME:80|g" /etc/httpd
 echo "NETWORKING=yes" > /etc/sysconfig/network
 
 
-#chkconfig httpd on
-#chkconfig mysqld on
+/etc/init.d/mysqld start
+
+mysql -u root -e "CREATE USER 'root'@'%';GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;FLUSH PRIVILEGES;"
 
 # Make sure we don't leave behind PID
 
