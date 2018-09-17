@@ -1,4 +1,4 @@
-FROM amazonlinux:latest
+FROM amazonlinux:2018.03
 MAINTAINER Casey Jones <caseyjonesdev@gmail.com>
 
 ADD create-user.sh /tmp/create-user.sh
