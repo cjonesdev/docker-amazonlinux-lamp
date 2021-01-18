@@ -15,6 +15,14 @@ Creates a LAMP stack image using the official Amazon Linux image for [Docker](ht
 This container is recommended for development use, to mirror or mimic development of an AWS EC2 instance running Amazon Linux 2. 
 
 
+#### Docker Hub Download
+The easiest way to get started is downloading the image from Docker Hub. Change to the desired container name and update your local directory (see "Create Container" section for more details)
+
+```
+# Download and Build from Docker Hub
+docker run -ti --name containerName -p 80:80 -p 3306:3306 -p 27017:27017 -v ~/sites:/var/www/html -d cjonesdev/amazonlinux-lamp
+```
+
 #### Build Image
 Navigate to directory containing docker file. If downloading from Docker Hub, move on to "Create Container" section.
 
@@ -27,8 +35,8 @@ docker build -t imageName .
 
 You will most likely want to develop on your local machine. Create your directory structure on your local machine and figure out where you want your web root to reside. Update the `-v ~/sites:/var/www/html` with the path to your working directory. `~/sites` in this example would be where your files reside locally, relative to the home directory. You can also use a full path. Don't change `:/var/www/html`.
 
+If you built the image locally, use the following to create a container from the image built above
 
-If you built the image locally
 ```
 # Custom Image Build
 docker run -ti --name containerName -p 80:80 -p 3306:3306 -p 27017:27017 -v ~/sites:/var/www/html -d imagesName
