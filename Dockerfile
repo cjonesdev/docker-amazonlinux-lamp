@@ -1,79 +1,73 @@
-FROM amazonlinux:2018.03
-MAINTAINER Casey Jones <caseyjonesdev@gmail.com>
+FROM amazonlinux:latest
+LABEL maintainer="caseyjonesdev@gmail.com"
 
-ADD create-user.sh /tmp/create-user.sh
-ADD create-cert.sh /tmp/create-cert.sh
-ADD install-php-mongo-library.sh /tmp/install-php-mongo-library.sh
-ADD mongodb-org-3.4.repo /etc/yum.repos.d/mongodb-org-3.4.repo
-ADD server-config.sh /tmp/server-config.sh
-ADD start-servers.sh /usr/sbin/start-servers
+COPY systemctl.py /tmp/systemctl.py
+COPY create-user.sh /tmp/create-user.sh
+COPY server-config.sh /tmp/server-config.sh
+COPY start-servers.sh /usr/sbin/start-servers
+COPY mongodb-org-4.4.repo /etc/yum.repos.d/mongodb-org-4.4.repo
+COPY db-setup.sh /tmp/db-setup.sh
+COPY install-php-mongo-library.sh /tmp/install-php-mongo-library.sh
 
 RUN yum update -y && yum install -y \
 sudo \
-httpd24 \
-mod24_ssl \
+make \
+httpd \
 gcc \
-memcached \
-openssl-devel \
-php70 \
-php70-bcmath \
-php70-cli \
-php70-common \
-php70-dba \
-php70-dbg \
-php70-devel \
-php70-enchant \
-php70-fpm \
-php70-gd \
-php70-gmp \
-php70-imap \
-php70-intl \
-php70-json \
-php70-ldap \
-php70-mbstring \
-php70-mcrypt \
-php70-mysqlnd \
-php70-odbc \
-php70-opcache \
-php70-pdo \
-php70-pdo-dblib \
-php70-pecl-igbinary \
-php70-pecl-imagick \
-php70-pecl-memcached \
-php70-pecl-oauth \
-php70-pecl-ssh2 \
-php70-pecl-uuid \
-php70-pecl-yaml \
-php70-pgsql \
-php70-process \
-php70-pspell \
-php70-recode \
-php70-snmp \
-php70-soap \
-php70-tidy \
-php70-xml \
-php70-xmlrpc \
-php70-zip \
-php7-pear \
-mysql57-server \
-mongodb-org \
+php-pear \
 nano \
 man \
-&& yum clean all
+tar \
+openssl-devel \
+&& amazon-linux-extras install -y \
+php7.3
+
+RUN yum install -y \
+php-bcmath \
+php-dba \
+php-dbg \
+php-devel \
+php-embedded \
+php-enchant \
+php-gd \
+php-gmp \
+php-intl \
+php-ldap \
+php-mbstring \
+php-odbc \
+php-opcache \
+php-pecl-mcrypt \
+php-pecl-memcached \
+php-pecl-oauth \
+php-pecl-redis \
+php-pecl-uuid \
+php-pecl-zip \
+php-pgsql \
+php-pspell \
+php-recode \
+php-snmp \
+php-soap \
+php-xmlrpc \
+mongodb-org && \
+yum install -y https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm && \
+yum update -y && yum install -y \
+mysql-community-client \
+mysql-community-server \
+&& yum clean all && rm -rf /var/cache/yum
+
+RUN mv /tmp/systemctl.py /usr/bin/systemctl && \
+chmod 755 /usr/bin/systemctl && \
+/bin/bash /tmp/create-user.sh && \
+rm /tmp/create-user.sh && \
+/bin/bash /tmp/server-config.sh && \
+rm /tmp/server-config.sh && \
+/bin/bash /tmp/db-setup.sh && \
+rm /tmp/db-setup.sh && \
+/bin/bash /tmp/install-php-mongo-library.sh && \
+rm /tmp/install-php-mongo-library.sh
 
 EXPOSE 80
-EXPOSE 443
 EXPOSE 3306
-EXPOSE 11211
 EXPOSE 27017
-
-RUN /bin/bash /tmp/create-user.sh && \
-rm /tmp/create-user.sh && \
-/bin/bash /tmp/create-cert.sh && \
-rm /tmp/create-cert.sh && \
-/bin/bash /tmp/install-php-mongo-library.sh && \
-rm /tmp/install-php-mongo-library.sh && \
-/bin/bash /tmp/server-config.sh && \
-rm /tmp/server-config.sh
 
 CMD /usr/bin/env bash start-servers;sleep infinity

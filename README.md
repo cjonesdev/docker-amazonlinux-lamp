@@ -2,17 +2,17 @@
 
 Creates a LAMP stack image using the official Amazon Linux image for [Docker](http://docker.com)
 
+* Amazon Linux 2
 * Apache 2.4
-* PHP 7.0
+* PHP 7.3
 * MySQL 5.7
-* MongoDB 3.4
+* MongoDB 4.4
 
-- http and https (unsigned)
-- remote access for MySQL, MongoDB and Memcached
+- remote access for MySQL and MongoDB
 
 ## Getting Started
 
-This container is recommended for development use, to mirror or mimic development of an AWS EC2 instance running Amazon Linux. 
+This container is recommended for development use, to mirror or mimic development of an AWS EC2 instance running Amazon Linux 2. 
 
 
 #### Build Image
@@ -25,28 +25,26 @@ docker build -t imageName .
 
 ### Create Container
 
-You will most likely want to develop on your local machine. Create your directory structure on your local machine and figure out where you want your web root to reside. Update the -v ~/www:/var/www/html with the path to your working directory. You can obviously change this to include multiple filepath mappings, where needed.
+You will most likely want to develop on your local machine. Create your directory structure on your local machine and figure out where you want your web root to reside. Update the `-v ~/sites:/var/www/html` with the path to your working directory. `~/sites` in this example would be where your files reside locally, relative to the home directory. You can also use a full path. Don't change `:/var/www/html`.
 
+
+If you built the image locally
 ```
 # Custom Image Build
-docker run -ti --name lamp -p 80:80 -p 443:443 -p 3306:3306 -p 11211:11211 -p 27017:27017 -v ~/www:/var/www/html -d imagesName
-
-# Download and Build from Docker Hub
-docker run -ti --name lamp -p 80:80 -p 443:443 -p 3306:3306 -p 11211:11211 -p 27017:27017 -v ~/www:/var/www/html -d cjonesdev/amazonlinux-lamp
+docker run -ti --name containerName -p 80:80 -p 3306:3306 -p 27017:27017 -v ~/sites:/var/www/html -d imagesName
 ```
+
+### virtualhosts.conf
+
+You can place the virtualhosts.conf file in your `~/sites` directory and add as many test sites as you like. Just copy the test.loc section and add the site domain to your hosts file. You'll need to restart Apache every time you update this file `docker exec -ti containerName service httpd restart`
 
 
 ### Working with MySQL
 
-By default, the root user doesn't have a password. Run the following to set the root user password.
+The MySQL username/password is setup with these default settings:
 
 ```
-docker exec -ti --privileged lamp mysql_secure_installation
-```
-
-
-### Login as ec2-user
-
-```
-docker exec -ti -u ec2-user lamp bash
+Host: localhost
+User: root
+Password: root
 ```

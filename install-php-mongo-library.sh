@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-pecl7 install mongodb
+# update pecl
+pecl channel-update pecl.php.net
 
-echo "extension=mongodb.so" >> '/etc/php-7.0.d/50-mongod.ini'
-echo "extension=mongodb.so" >> '/etc/php-fpm-7.0.d/50-mongod.ini'
-echo "extension=mongodb.so" >> '/etc/php-zts-7.0.d/50-mongod.ini'
+pecl install mongodb
+
+echo "extension=mongodb.so" > /etc/php.d/30-mongo.ini

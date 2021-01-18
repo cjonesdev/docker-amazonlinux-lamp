@@ -3,7 +3,6 @@
 service httpd stop
 service mysqld stop
 service mongod stop
-service memcached stop
 
 if [ -e /var/run/httpd/httpd.pid ]
 then
@@ -25,15 +24,10 @@ then
 	rm -f /var/run/mongod/mongod.pid
 fi
 
-if [ -e /var/run/memcached/memcached.pid ]
-then
-	rm -f /var/run/memcached/memcached.pid
-fi
-
 rm -f /var/run/httpd/*
 rm -f /tmp/*
 
 service httpd start
 service mysqld start
 service mongod start
-service memcached start
+service php-fpm start
