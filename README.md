@@ -4,7 +4,7 @@ Creates a LAMP stack image using the official Amazon Linux image for [Docker](ht
 
 * Amazon Linux 2
 * Apache 2.4
-* PHP 7.3
+* PHP 7.3 (php-fpm)
 * MySQL 5.7
 * MongoDB 4.4
 
