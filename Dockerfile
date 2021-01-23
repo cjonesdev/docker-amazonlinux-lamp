@@ -20,7 +20,7 @@ man \
 tar \
 openssl-devel \
 && amazon-linux-extras install -y \
-php7.3
+php7.4
 
 RUN yum install -y \
 php-bcmath \
@@ -36,17 +36,16 @@ php-ldap \
 php-mbstring \
 php-odbc \
 php-opcache \
-php-pecl-mcrypt \
 php-pecl-memcached \
 php-pecl-oauth \
 php-pecl-redis \
+php-pecl-ssh2 \
 php-pecl-uuid \
-php-pecl-zip \
 php-pgsql \
 php-pspell \
-php-recode \
 php-snmp \
 php-soap \
+php-xml \
 php-xmlrpc \
 mongodb-org && \
 yum install -y https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm && \
